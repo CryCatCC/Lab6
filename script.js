@@ -16,7 +16,7 @@ function initBoard() {
     for (let i = 0; i < boardSize; i++) {
         for (let j = 0; j < boardSize; j++) {
             const cell = document.getElementsByTagName('td')[i*boardSize+j];
-            cell.addEventListener('click', toggleCell);
+            //cell.addEventListener('click', toggleCell);
             cell.classList.toggle('on', initialState[i][j] === 1);
         }
     }
@@ -38,15 +38,23 @@ function checkWin(){
 
 function toggleCell(event) {
     const cell = event.target;
-    const currentColor = cell.style.backgroundColor;
+
     cell.classList.toggle('on');
     const rowIndex = cell.parentNode.rowIndex;
     const cellIndex = cell.cellIndex;
     
     
 
-    if (rowIndex == last_move_y && cellIndex == last_move_x && moves > 0) moves--;
-    else moves++;
+    if (rowIndex == last_move_y && cellIndex == last_move_x && moves > 0 && last_move_x!=-1 && last_move_y!=-1) {
+        moves--;
+        last_move_y=-1;
+        last_move_x=-1;
+    }
+    else{
+        moves++;      
+        last_move_x = cellIndex;
+        last_move_y = rowIndex;
+    }
     document.getElementById('moves').innerHTML = moves;
 
     flipNeighbors(rowIndex, cellIndex);
@@ -55,8 +63,6 @@ function toggleCell(event) {
         timeF = new Date().getTime();
         alert("You won! Moves: " + moves +  " time: " + (timeF-timeS)/10+ " s");
     }    
-    last_move_x = cellIndex;
-    last_move_y = rowIndex;
 }
 
 
@@ -83,19 +89,19 @@ function flipNeighbors(rowIndex, cellIndex) {
 
 // AJAX
 function updateBoard(){
-    let request = new XMLHttpRequest();
-    request.open("GET","data/data1.json");
-    request.onreadystatechange = () =>
-    {
-        if (request.readyState === XMLHttpRequest.DONE)
-        {
-            let rtext = request.responseText;
-            let rjson = JSON.parse(rtext);
-            initialState = rjson.boards[Math.trunc(Math.random()*rjson.boards.length)];
-            initBoard();
-        }
-    }
-    request.send();
+	let request = new XMLHttpRequest();
+	request.open("GET","data/data1.json");
+	request.onreadystatechange = () =>
+	{
+		if (request.readyState === XMLHttpRequest.DONE)
+		{
+			let rtext = request.responseText;
+			let rjson = JSON.parse(rtext);
+			initialState = rjson.boards[Math.trunc(Math.random()*rjson.boards.length)];
+			initBoard();
+		}
+	}
+	request.send();
 }
 
 const boardSize = 5;

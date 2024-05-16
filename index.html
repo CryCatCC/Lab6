@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>LightOut Game</title>
@@ -8,6 +8,26 @@
     <table id="game-board"></table>
     <div style="display: block">
         <button style="display: block" id="update-board" onclick="updateBoard()">New game</button>
+        <span>Moves: </span>
+        <span id="moves">0</span>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LightOut Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <table id="game-board"></table>
+    <div style="display: block">
+        <button style="display: block" id="update-board" onclick="updateBoard()">New game</button>
+        <button style="display: block" id="restart-board" onclick="restartBoard()">Restart</button>
         <span>Moves: </span>
         <span id="moves">0</span>
     </div>
